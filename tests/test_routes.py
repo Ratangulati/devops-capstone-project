@@ -124,3 +124,49 @@ class TestAccountService(TestCase):
         self.assertEqual(response.status_code, status.HTTP_415_UNSUPPORTED_MEDIA_TYPE)
 
     # ADD YOUR TEST CASES HERE ...
+
+# import unittest
+
+# class TestAccountAPI(unittest.TestCase):
+#     def setUp(self):
+#         # Set up your testing client (e.g., using Django's Client or Flask's test_client)
+#         self.client = YourTestClient()
+        
+#     def test_read_an_account(self):
+#         # Step 1: Make a self.client.post() call to create a new account and get the account id
+#         account_data = {
+#             "name": "Test Account",
+#             "balance": 1000.00,
+#             "account_number": "1234567890"
+#             # Add other required account data here
+#         }
+#         response = self.client.post("/accounts/", data=account_data)
+#         self.assertEqual(response.status_code, 201)  # Assuming HTTP_201_CREATED is returned
+        
+#         account_id = response.json().get("id")
+#         self.assertIsNotNone(account_id, "Failed to retrieve account id from the response JSON.")
+
+#         # Step 2: Make a self.client.get() call to /accounts/{id} using the obtained account id
+#         response = self.client.get(f"/accounts/{account_id}/")
+        
+#         # Step 3: Assert that the return code was HTTP_200_OK
+#         self.assertEqual(response.status_code, 200)
+        
+#         # Step 4: Check the JSON that was returned and assert that it is equal to the data that you sent
+#         returned_data = response.json()
+#         self.assertEqual(returned_data, account_data, "Returned data does not match the sent data.")
+
+    def test_get_account(self):
+        """It should Read a single Account"""
+        account = self._create_accounts(1)[0]
+        resp = self.client.get(
+            f"{BASE_URL}/{account.id}", content_type="application/json"
+        )
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        data = resp.get_json()
+        self.assertEqual(data["name"], account.name)
+
+    def test_get_account_not_found(self):
+        """It should not Read an Account that is not found"""
+        resp = self.client.get(f"{BASE_URL}/0")
+        self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)   
