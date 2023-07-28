@@ -1,5 +1,5 @@
 
-![Build Status](https://github.com/<Ratangulati>/<REPOSITORY>/actions/workflows/<WORKFLOW_FILE>/badge.svg)
+![Build Status](https://github.com/Ratangulati/devops-capstone-project/actions/workflows/ci-build.yaml/badge.svg)
 
 # DevOps Capstone Template
 
